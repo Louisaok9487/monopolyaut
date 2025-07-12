@@ -267,10 +267,10 @@
                         <div id="dice1" class="dice bg-gray-200 rounded-lg flex items-center justify-center p-2 border border-gray-400"></div>
                         <div id="dice2" class="dice bg-gray-200 rounded-lg flex items-center justify-center p-2 border border-gray-400"></div>
                     </div>
-                    <!-- FIX: Changed button layout to flex-col -->
-                    <div class="flex flex-col space-y-2 mb-4 w-full px-4">
-                        <button id="roll-dice-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg text-base md:text-xl shadow-lg">Roll Dice</button>
-                        <button id="manage-prop-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg text-base md:text-xl shadow-lg">Manage Properties</button>
+                    <!-- FIX: Changed button layout to be shorter and centered -->
+                    <div class="flex flex-col space-y-2 mb-4 w-full items-center">
+                        <button id="roll-dice-btn" class="w-4/5 max-w-xs bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 md:py-3 rounded-lg text-base md:text-xl shadow-lg">Roll Dice</button>
+                        <button id="manage-prop-btn" class="w-4/5 max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 md:py-3 rounded-lg text-base md:text-xl shadow-lg">Manage Properties</button>
                     </div>
                      <div class="flex items-center space-x-2">
                         <button id="mute-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-3 rounded ml-4">🔊</button>
@@ -644,18 +644,20 @@
                 } else if (space.type === 'go' || space.type === 'jail' || space.type === 'parking' || space.type === 'go-to-jail') {
                     classList.push('corner');
                     spaceEl.className = classList.join(' ');
-                    spaceEl.innerHTML = `<div>${space.name}</div><div class="emoji">${space.emoji}</div>`;
+                    // FIX: Add a class for smaller font if the name is long to prevent overflow.
+                    const nameClass = space.name.length > 10 ? 'text-[0.6rem] leading-tight' : 'font-bold';
+                    spaceEl.innerHTML = `<div class="${nameClass}">${space.name}</div><div class="emoji">${space.emoji}</div>`;
                 } else { // special cards
                     classList.push('special-card');
                     if (isLeftSide) classList.push('side-property', 'left-side');
                     if (isRightSide) classList.push('side-property', 'right-side');
 
                     spaceEl.className = classList.join(' ');
-                    // FIX: Use a flex-col wrapper to ensure name and emoji stack vertically and are centered.
-                    // leading-tight helps prevent text from being cut off in small spaces.
+                    // FIX: Add a class for smaller font if the name is long to prevent overflow.
+                    const nameClass = space.name.length > 15 ? 'text-[0.55rem]' : '';
                     spaceEl.innerHTML = `
                         <div class="flex flex-col justify-center items-center h-full w-full p-1">
-                            <div class="name leading-tight">${space.name}</div>
+                            <div class="name leading-tight ${nameClass}">${space.name}</div>
                             <div class="emoji">${space.emoji || ''}</div>
                         </div>`;
                 }
